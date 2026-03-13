@@ -131,7 +131,7 @@ textarea { resize:none; line-height:1.7; font-size:15px; }
       <label class="field-label">YouTube APIキー</label>
       <div class="field-row">
         <input type="password" id="apiKey" placeholder="AIza...">
-        <button class="icon-btn" onclick="toggleKey()">👁</button>
+        <button class="icon-btn" id="toggleKeyBtn">👁</button>
       </div>
     </div>
   </div>
@@ -160,7 +160,7 @@ textarea { resize:none; line-height:1.7; font-size:15px; }
         <input type="number" id="maxComments" value="100" min="10" max="500">
       </div>
     </div>
-    <button class="run-btn" id="runBtn" onclick="startHunt()">▶ 収集スタート</button>
+    <button class="run-btn" id="runBtn">▶ 収集スタート</button>
   </div>
 
   <div class="progress-section" id="progressBox">
@@ -175,16 +175,16 @@ textarea { resize:none; line-height:1.7; font-size:15px; }
 <div class="numlist-panel" id="numlistPanel" style="display:none">
   <div class="numlist-header">
     <span class="numlist-title">🔢 数字一覧（重複除去済み）</span>
-    <button class="copy-all-btn" id="copyBtn" onclick="copyAllNums()">📋 全コピー</button>
+    <button class="copy-all-btn" id="copyBtn">📋 全コピー</button>
   </div>
   <div class="numlist-grid" id="numlistGrid"></div>
 </div>
 
 <div class="tabs">
-  <button class="tab active" id="filterAll" onclick="filterResults('all')">すべて</button>
-  <button class="tab" id="filterDesc" onclick="filterResults('desc')">📄 概要欄</button>
-  <button class="tab" id="filterComment" onclick="filterResults('comment')">💬 コメント</button>
-  <button class="csv-tab" onclick="downloadCSV()">⬇ CSV</button>
+  <button class="tab active" id="filterAll">すべて</button>
+  <button class="tab" id="filterDesc">📄 概要欄</button>
+  <button class="tab" id="filterComment">💬 コメント</button>
+  <button class="csv-tab">⬇ CSV</button>
 </div>
 <div id="resultsList"></div>
 ```
@@ -433,6 +433,17 @@ a.href = URL.createObjectURL(blob);
 a.download = ‘youtube_hunter_’ + new Date().toISOString().slice(0,10) + ‘.csv’;
 a.click();
 }
+
+// Attach all event listeners after DOM ready
+document.addEventListener(‘DOMContentLoaded’, function() {
+document.getElementById(‘toggleKeyBtn’).addEventListener(‘click’, toggleKey);
+document.getElementById(‘runBtn’).addEventListener(‘click’, startHunt);
+document.getElementById(‘copyBtn’).addEventListener(‘click’, copyAllNums);
+document.querySelector(’.csv-tab’).addEventListener(‘click’, downloadCSV);
+document.getElementById(‘filterAll’).addEventListener(‘click’, function(){ filterResults(‘all’); });
+document.getElementById(‘filterDesc’).addEventListener(‘click’, function(){ filterResults(‘desc’); });
+document.getElementById(‘filterComment’).addEventListener(‘click’, function(){ filterResults(‘comment’); });
+});
 </script>
 
 </body>
