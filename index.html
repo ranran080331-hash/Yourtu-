@@ -114,6 +114,13 @@ textarea { resize:none; line-height:1.7; font-size:15px; }
 .num-pill.is-new { background:var(--gold-dim); border-color:rgba(255,204,0,0.5); color:var(--gold); animation: pulse-gold 2s infinite; }
 @keyframes pulse-gold { 0% { box-shadow:0 0 0 0 rgba(255,204,0,0.4); } 70% { box-shadow:0 0 0 6px rgba(255,204,0,0); } 100% { box-shadow:0 0 0 0 rgba(255,204,0,0); } }
 .likes-chip { font-size:12px; color:var(--muted); margin-left:auto; }
+
+/* Favorite styles */
+.fav-btn { cursor:pointer; font-size:14px; margin-left:6px; opacity:0.5; transition:opacity 0.2s, transform 0.1s; display:inline-flex; align-items:center; justify-content:center; }
+.fav-btn:hover { opacity:1; transform:scale(1.2); }
+.fav-btn.active { opacity:1; color:#ffcc00; text-shadow:0 0 8px rgba(255,204,0,0.4); }
+.numlist-pill .fav-btn { margin-left:8px; font-size:12px; }
+
 .empty { text-align:center; padding:48px 20px; color:var(--muted); font-size:14px; line-height:2; }
 </style>
 </head>
@@ -188,6 +195,13 @@ https://www.dlsite.com/maniax/fsr/=/keyword/{{NUM}}</textarea>
   <div class="results-wrap" id="resultsWrap">
     <div class="stats-grid" id="statsGrid"></div>
 
+    <div class="numlist-panel" id="favPanel" style="display:none; border-color:rgba(255,204,0,0.3); background:linear-gradient(to bottom, rgba(255,204,0,0.05), var(--surface));">
+      <div class="numlist-header">
+        <span class="numlist-title" style="color:var(--gold);">⭐ お気に入り数字（<span id="favCount">0</span>件）</span>
+      </div>
+      <div class="numlist-grid" id="favGrid"></div>
+    </div>
+
     <div class="numlist-panel" id="numlistPanel" style="display:none">
       <div class="numlist-header">
         <span class="numlist-title">🔢 今まで収集した数字一覧（<span id="totalSavedCount">0</span>件）</span>
@@ -213,6 +227,24 @@ let currentFilter = 'all';
 let savedNumbers = new Set();
 let newlyFoundNumbers = new Set();
 let searchedVideoIds = new Set();
+let savedFavorites = new Set();
+
+function saveFavorites() {
+  try {
+    localStorage.setItem('yt_hunter_favs', JSON.stringify(Array.from(savedFavorites)));
+    renderResults();
+  } catch(e) { console.error('Favorites save error:', e); }
+}
+
+function toggleFavorite(num, event) {
+  if (event) event.stopPropagation();
+  if (savedFavorites.has(num)) {
+    savedFavorites.delete(num);
+  } else {
+    savedFavorites.add(num);
+  }
+  saveFavorites();
+}
 
 function saveSearchedVideos() {
   try {
@@ -469,10 +501,33 @@ function renderResults() {
     numGrid.innerHTML = allSavedArr.map(function(n){ 
       const isNewClass = newlyFoundNumbers.has(n) ? ' is-new' : '';
       const newLabel = newlyFoundNumbers.has(n) ? ' <span style="font-size:10px;color:#ffcc00;">[NEW]</span>' : '';
-      return '<a class="numlist-pill' + isNewClass + '" href="javascript:void(0)" onclick="openSitesForNumber(\'' + n + '\')">' + n + newLabel + '</a>'; 
+      const isFav = savedFavorites.has(n);
+      return '<div class="numlist-pill' + isNewClass + '" onclick="openSitesForNumber(\'' + n + '\')">' + 
+             '<span>' + n + newLabel + '</span>' +
+             '<span class="fav-btn' + (isFav ? ' active' : '') + '" onclick="toggleFavorite(\'' + n + '\', event)">' + (isFav ? '★' : '☆') + '</span>' +
+             '</div>'; 
     }).join('');
   } else {
     numPanel.style.display = 'none';
+  }
+
+  // お気に入り一覧
+  const favPanel = document.getElementById('favPanel');
+  const favGrid = document.getElementById('favGrid');
+  const favCountSpan = document.getElementById('favCount');
+
+  if (savedFavorites.size > 0) {
+    favPanel.style.display = 'block';
+    favCountSpan.textContent = savedFavorites.size;
+    const allFavArr = Array.from(savedFavorites).sort();
+    favGrid.innerHTML = allFavArr.map(function(n){ 
+      return '<div class="numlist-pill" onclick="openSitesForNumber(\'' + n + '\')">' + 
+             '<span>' + n + '</span>' +
+             '<span class="fav-btn active" onclick="toggleFavorite(\'' + n + '\', event)">★</span>' +
+             '</div>'; 
+    }).join('');
+  } else {
+    favPanel.style.display = 'none';
   }
 
   if (sorted.length === 0) {
@@ -491,7 +546,11 @@ function renderResults() {
         r.numbers.map(function(n){ 
           const isNewClass = newlyFoundNumbers.has(n) ? ' is-new' : '';
           const newLabel = newlyFoundNumbers.has(n) ? ' <span style="font-size:10px;color:#ffcc00;">[NEW]</span>' : '';
-          return '<a class="num-pill' + isNewClass + '" href="javascript:void(0)" onclick="openSitesForNumber(\'' + n + '\')" style="text-decoration:none;">' + n + newLabel + '</a>'; 
+          const isFav = savedFavorites.has(n);
+          return '<div class="num-pill' + isNewClass + '" onclick="openSitesForNumber(\'' + n + '\')" style="display:inline-flex; align-items:center; cursor:pointer;">' + 
+                 '<span>' + n + newLabel + '</span>' +
+                 '<span class="fav-btn' + (isFav ? ' active' : '') + '" onclick="toggleFavorite(\'' + n + '\', event)">' + (isFav ? '★' : '☆') + '</span>' +
+                 '</div>'; 
         }).join('') +
         (r.likes !== null ? '<span class="likes-chip">👍 ' + Number(r.likes).toLocaleString() + '</span>' : '') +
       '</div>' +
@@ -563,6 +622,16 @@ function loadSettings() {
       if (Array.isArray(parsedVids)) {
         searchedVideoIds = new Set(parsedVids);
         document.getElementById('historyCount').textContent = searchedVideoIds.size;
+      }
+    }
+
+    // Load favorites
+    const storedFavs = localStorage.getItem('yt_hunter_favs');
+    if (storedFavs) {
+      const parsedFavs = JSON.parse(storedFavs);
+      if (Array.isArray(parsedFavs)) {
+        savedFavorites = new Set(parsedFavs);
+        renderResults();
       }
     }
   } catch (e) { console.error('Settings load error:', e); }
