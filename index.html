@@ -377,6 +377,57 @@ font-size: 14px;
 line-height: 2;
 }
 
+/* Number list panel */
+.numlist-panel {
+background: var(–surface);
+border-radius: var(–radius);
+padding: 16px;
+margin-bottom: 12px;
+}
+
+.numlist-header {
+display: flex;
+align-items: center;
+justify-content: space-between;
+margin-bottom: 12px;
+}
+
+.numlist-title {
+font-size: 11px;
+font-weight: 700;
+letter-spacing: 2px;
+text-transform: uppercase;
+color: var(–muted);
+}
+
+.copy-all-btn {
+font-size: 12px;
+font-weight: 700;
+padding: 6px 14px;
+border-radius: 99px;
+border: 1.5px solid var(–border);
+background: var(–card);
+color: var(–muted);
+cursor: pointer;
+}
+
+.numlist-grid {
+display: flex;
+flex-wrap: wrap;
+gap: 8px;
+}
+
+.numlist-pill {
+font-family: ‘JetBrains Mono’, monospace;
+font-size: 15px;
+font-weight: 700;
+background: var(–gold-dim);
+border: 1.5px solid rgba(255,204,0,0.3);
+color: var(–gold);
+padding: 6px 14px;
+border-radius: 99px;
+}
+
 .results-wrap { display: none; }
 .results-wrap.visible { display: block; }
 </style>
@@ -414,7 +465,11 @@ line-height: 2;
     <div class="section-title">検索設定</div>
     <div class="field">
       <label class="field-label">検索キーワード（複数は改行して入力）</label>
-      <textarea id="searchQuery" rows="3" placeholder="例：&#10;懸賞 当選番号&#10;ロト7 結果"></textarea>
+      <textarea id="searchQuery" rows="5">7桁
+七桁
+伝説の7桁
+魔法の7桁
+殿堂入り 7桁</textarea>
     </div>
     <div class="num-row">
       <div class="num-field">
@@ -444,6 +499,13 @@ line-height: 2;
 
   <div class="results-wrap" id="resultsWrap">
     <div class="stats-grid" id="statsGrid"></div>
+    <div class="numlist-panel" id="numlistPanel" style="display:none">
+      <div class="numlist-header">
+        <span class="numlist-title">🔢 見つかった数字一覧（重複除去済み）</span>
+        <button class="copy-all-btn" onclick="copyAllNums()">📋 全コピー</button>
+      </div>
+      <div class="numlist-grid" id="numlistGrid"></div>
+    </div>
     <div class="tabs">
       <button class="tab active" id="filterAll" onclick="filterResults('all')">すべて</button>
       <button class="tab" id="filterDesc" onclick="filterResults('desc')">📄 概要欄</button>
@@ -621,9 +683,20 @@ return (b.likes || 0) - (a.likes || 0);
 
 const totalDesc = allResults.filter(r => r.source === ‘desc’).length;
 const totalComment = allResults.filter(r => r.source === ‘comment’).length;
-const uniqNums = […new Set(allResults.flatMap(r => r.numbers))];
+// 重複除去：全結果から数字を集めてSetで一意化
+const uniqNums = […new Set(allResults.flatMap(r => r.numbers))].sort();
 
 document.getElementById(‘statsGrid’).innerHTML = `<div class="stat-card"><div class="stat-num">${allResults.length}</div><div class="stat-name">総ヒット</div></div> <div class="stat-card"><div class="stat-num">${uniqNums.length}</div><div class="stat-name">ユニーク数字</div></div> <div class="stat-card"><div class="stat-num">${totalDesc}</div><div class="stat-name">概要欄</div></div> <div class="stat-card"><div class="stat-num">${totalComment}</div><div class="stat-name">コメント</div></div>`;
+
+// 数字一覧パネル
+const numPanel = document.getElementById(‘numlistPanel’);
+const numGrid = document.getElementById(‘numlistGrid’);
+if (uniqNums.length > 0) {
+numPanel.style.display = ‘block’;
+numGrid.innerHTML = uniqNums.map(n => `<span class="numlist-pill">${n}</span>`).join(’’);
+} else {
+numPanel.style.display = ‘none’;
+}
 
 if (sorted.length === 0) {
 list.innerHTML = `<div class="empty">該当する${digits}桁の数字が<br>見つかりませんでした</div>`;
@@ -638,6 +711,16 @@ currentFilter = type;
 document.querySelectorAll(’.tab’).forEach(b => b.classList.remove(‘active’));
 document.getElementById(`filter${type.charAt(0).toUpperCase()+type.slice(1)}`).classList.add(‘active’);
 renderResults();
+}
+
+function copyAllNums() {
+const uniqNums = […new Set(allResults.flatMap(r => r.numbers))].sort();
+if (!uniqNums.length) return;
+navigator.clipboard.writeText(uniqNums.join(’\n’)).then(() => {
+const btn = document.querySelector(’.copy-all-btn’);
+btn.textContent = ‘✅ コピー済み’;
+setTimeout(() => btn.textContent = ‘📋 全コピー’, 2000);
+});
 }
 
 function downloadCSV() {
