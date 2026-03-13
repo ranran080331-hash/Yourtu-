@@ -4,7 +4,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<meta name="apple-mobile-web-app-capable" content="yes">
 <title>7桁ハンター</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
@@ -20,423 +19,103 @@
   --text: #f5f5f5;
   --muted: #777;
   --radius: 14px;
-  --tap: 48px;
 }
-
-- { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color: transparent; }
-
-html { font-size: 16px; }
-
-body {
-background: var(–bg);
-color: var(–text);
-font-family: ‘Noto Sans JP’, sans-serif;
-min-height: 100vh;
-padding-bottom: env(safe-area-inset-bottom, 20px);
-}
-
-.wrap { max-width: 640px; margin: 0 auto; padding: 24px 16px; }
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+body { background:var(--bg); color:var(--text); font-family:'Noto Sans JP',sans-serif; min-height:100vh; padding-bottom:40px; }
+.wrap { max-width:640px; margin:0 auto; padding:24px 16px; }
 
 /* Header */
-.header {
-display: flex;
-align-items: center;
-gap: 12px;
-margin-bottom: 24px;
-padding-bottom: 20px;
-border-bottom: 1px solid var(–border);
-}
-
-.header-icon {
-width: 48px; height: 48px;
-background: var(–red);
-border-radius: 12px;
-display: flex; align-items: center; justify-content: center;
-font-size: 24px;
-flex-shrink: 0;
-}
-
-.header-title { font-size: 22px; font-weight: 900; line-height: 1.1; }
-.header-sub { font-size: 12px; color: var(–muted); margin-top: 2px; }
+.header { display:flex; align-items:center; gap:12px; margin-bottom:24px; padding-bottom:20px; border-bottom:1px solid var(–border); }
+.header-icon { width:48px; height:48px; background:var(–red); border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:24px; flex-shrink:0; }
+.header-title { font-size:22px; font-weight:900; line-height:1.1; }
+.header-sub { font-size:12px; color:var(–muted); margin-top:2px; }
 
 /* Section */
-.section {
-background: var(–surface);
-border-radius: var(–radius);
-padding: 16px;
-margin-bottom: 12px;
-}
-
-.section-title {
-font-size: 11px;
-font-weight: 700;
-letter-spacing: 2px;
-text-transform: uppercase;
-color: var(–muted);
-margin-bottom: 12px;
-}
+.section { background:var(–surface); border-radius:var(–radius); padding:16px; margin-bottom:12px; }
+.section-title { font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(–muted); margin-bottom:12px; }
 
 /* Inputs */
-.field { margin-bottom: 12px; }
-.field:last-child { margin-bottom: 0; }
-
-.field-label {
-font-size: 12px;
-color: var(–muted);
-margin-bottom: 6px;
-display: block;
-}
-
-.field-row {
-display: flex;
-gap: 8px;
-}
+.field { margin-bottom:12px; }
+.field:last-child { margin-bottom:0; }
+.field-label { font-size:12px; color:var(–muted); margin-bottom:6px; display:block; }
+.field-row { display:flex; gap:8px; }
 
 input, textarea {
-width: 100%;
-background: var(–bg);
-border: 1.5px solid var(–border);
-border-radius: 10px;
-color: var(–text);
-font-family: ‘Noto Sans JP’, sans-serif;
-font-size: 15px;
-padding: 12px 14px;
-outline: none;
-transition: border-color 0.2s;
--webkit-appearance: none;
-appearance: none;
+width:100%; background:var(–bg); border:1.5px solid var(–border); border-radius:10px;
+color:var(–text); font-family:‘Noto Sans JP’,sans-serif; font-size:15px;
+padding:12px 14px; outline:none; transition:border-color 0.2s;
+-webkit-appearance:none; appearance:none;
 }
+input[type=“number”] { font-family:‘JetBrains Mono’,monospace; font-size:16px; text-align:center; }
+input[type=“password”] { font-family:‘JetBrains Mono’,monospace; font-size:14px; letter-spacing:2px; }
+input:focus, textarea:focus { border-color:var(–red); box-shadow:0 0 0 3px var(–red-dim); }
+input::placeholder, textarea::placeholder { color:#444; }
+textarea { resize:none; line-height:1.7; font-size:15px; }
 
-input[type=“number”] {
-font-family: ‘JetBrains Mono’, monospace;
-font-size: 16px;
-text-align: center;
-}
+.icon-btn { min-width:48px; height:48px; background:var(–card); border:1.5px solid var(–border); border-radius:10px; color:var(–muted); font-size:18px; display:flex; align-items:center; justify-content:center; cursor:pointer; flex-shrink:0; }
 
-input[type=“password”] {
-font-family: ‘JetBrains Mono’, monospace;
-font-size: 14px;
-letter-spacing: 2px;
-}
+.num-row { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; }
+.num-field { text-align:center; }
+.num-field .field-label { text-align:center; }
 
-input:focus, textarea:focus {
-border-color: var(–red);
-box-shadow: 0 0 0 3px var(–red-dim);
-}
-
-input::placeholder, textarea::placeholder { color: #444; }
-
-textarea {
-resize: none;
-line-height: 1.7;
-font-size: 15px;
-}
-
-.icon-btn {
-min-width: var(–tap);
-height: var(–tap);
-background: var(–card);
-border: 1.5px solid var(–border);
-border-radius: 10px;
-color: var(–muted);
-font-size: 18px;
-display: flex; align-items: center; justify-content: center;
-cursor: pointer;
-flex-shrink: 0;
-}
-
-/* Number inputs row */
-.num-row {
-display: grid;
-grid-template-columns: repeat(3, 1fr);
-gap: 8px;
-}
-
-.num-field { text-align: center; }
-.num-field .field-label { text-align: center; }
-
-/* Run button */
-.run-btn {
-width: 100%;
-height: 56px;
-background: var(–red);
-border: none;
-border-radius: var(–radius);
-color: white;
-font-family: ‘Noto Sans JP’, sans-serif;
-font-weight: 900;
-font-size: 17px;
-letter-spacing: 1px;
-cursor: pointer;
-transition: opacity 0.15s, transform 0.1s;
-margin-top: 4px;
-}
-
-.run-btn:active { opacity: 0.85; transform: scale(0.98); }
-.run-btn:disabled { background: #2a2a2a; color: #444; }
+.run-btn { width:100%; height:56px; background:var(–red); border:none; border-radius:var(–radius); color:white; font-family:‘Noto Sans JP’,sans-serif; font-weight:900; font-size:17px; letter-spacing:1px; cursor:pointer; transition:opacity 0.15s,transform 0.1s; margin-top:4px; }
+.run-btn:active { opacity:0.85; transform:scale(0.98); }
+.run-btn:disabled { background:#2a2a2a; color:#444; }
 
 /* Progress */
-.progress-section {
-display: none;
-background: var(–surface);
-border-radius: var(–radius);
-padding: 16px;
-margin-bottom: 12px;
-}
-.progress-section.visible { display: block; }
+.progress-section { display:none; background:var(–surface); border-radius:var(–radius); padding:16px; margin-bottom:12px; }
+.progress-section.visible { display:block; }
+.progress-track { background:var(–border); border-radius:99px; height:6px; margin-bottom:12px; overflow:hidden; }
+.progress-fill { height:100%; background:var(–red); border-radius:99px; width:0%; transition:width 0.4s ease; }
+.log-box { font-family:‘JetBrains Mono’,monospace; font-size:12px; color:var(–muted); max-height:100px; overflow-y:auto; line-height:2; }
+.log-ok { color:#4ade80; }
+.log-hit { color:var(–gold); }
+.log-err { color:#f87171; }
 
-.progress-track {
-background: var(–border);
-border-radius: 99px;
-height: 6px;
-margin-bottom: 12px;
-overflow: hidden;
-}
-
-.progress-fill {
-height: 100%;
-background: var(–red);
-border-radius: 99px;
-width: 0%;
-transition: width 0.4s ease;
-}
-
-.log-box {
-font-family: ‘JetBrains Mono’, monospace;
-font-size: 12px;
-color: var(–muted);
-max-height: 100px;
-overflow-y: auto;
-line-height: 2;
-}
-.log-ok { color: #4ade80; }
-.log-hit { color: var(–gold); }
-.log-err { color: #f87171; }
+/* Results wrap */
+.results-wrap { display:none; }
+.results-wrap.visible { display:block; }
 
 /* Stats */
-.stats-grid {
-display: grid;
-grid-template-columns: repeat(2, 1fr);
-gap: 8px;
-margin-bottom: 12px;
-}
-
-.stat-card {
-background: var(–surface);
-border-radius: 12px;
-padding: 14px;
-text-align: center;
-}
-
-.stat-num {
-font-family: ‘JetBrains Mono’, monospace;
-font-size: 28px;
-font-weight: 700;
-color: var(–red);
-line-height: 1;
-}
-
-.stat-name {
-font-size: 11px;
-color: var(–muted);
-margin-top: 4px;
-}
-
-/* Filter tabs */
-.tabs {
-display: flex;
-gap: 6px;
-margin-bottom: 12px;
-overflow-x: auto;
-padding-bottom: 2px;
--webkit-overflow-scrolling: touch;
-}
-
-.tab {
-padding: 8px 16px;
-border-radius: 99px;
-font-size: 13px;
-font-weight: 700;
-white-space: nowrap;
-cursor: pointer;
-border: 1.5px solid var(–border);
-background: var(–surface);
-color: var(–muted);
-flex-shrink: 0;
-transition: all 0.15s;
-}
-
-.tab.active {
-background: var(–red-dim);
-border-color: var(–red);
-color: var(–red);
-}
-
-.csv-tab {
-margin-left: auto;
-padding: 8px 16px;
-border-radius: 99px;
-font-size: 13px;
-font-weight: 700;
-white-space: nowrap;
-cursor: pointer;
-border: 1.5px solid var(–border);
-background: var(–surface);
-color: var(–muted);
-flex-shrink: 0;
-}
-
-/* Result cards */
-.result-card {
-background: var(–surface);
-border-radius: var(–radius);
-padding: 14px;
-margin-bottom: 8px;
-animation: up 0.25s ease both;
-}
-
-@keyframes up {
-from { opacity:0; transform: translateY(8px); }
-to { opacity:1; transform: translateY(0); }
-}
-
-.card-top {
-display: flex;
-align-items: flex-start;
-gap: 8px;
-margin-bottom: 8px;
-}
-
-.badge {
-font-size: 10px;
-font-weight: 700;
-padding: 3px 8px;
-border-radius: 6px;
-white-space: nowrap;
-flex-shrink: 0;
-}
-.badge-desc { background: rgba(96,165,250,0.15); color: #93c5fd; border: 1px solid rgba(96,165,250,0.25); }
-.badge-comment { background: rgba(74,222,128,0.12); color: #86efac; border: 1px solid rgba(74,222,128,0.2); }
-
-.card-video-title {
-font-size: 12px;
-color: var(–muted);
-line-height: 1.4;
-}
-
-.card-video-title a { color: #aaa; text-decoration: none; }
-
-.card-text {
-font-size: 14px;
-line-height: 1.7;
-color: #ccc;
-margin-bottom: 10px;
-word-break: break-all;
-}
-
-.hl {
-font-family: ‘JetBrains Mono’, monospace;
-font-weight: 700;
-font-size: 15px;
-color: var(–gold);
-background: var(–gold-dim);
-padding: 1px 5px;
-border-radius: 5px;
-border: 1px solid rgba(255,204,0,0.2);
-}
-
-.card-nums {
-display: flex;
-flex-wrap: wrap;
-gap: 6px;
-align-items: center;
-}
-
-.num-pill {
-font-family: ‘JetBrains Mono’, monospace;
-font-size: 13px;
-font-weight: 700;
-background: var(–gold-dim);
-border: 1px solid rgba(255,204,0,0.25);
-color: var(–gold);
-padding: 4px 12px;
-border-radius: 99px;
-}
-
-.likes-chip {
-font-size: 12px;
-color: var(–muted);
-margin-left: auto;
-}
-
-.empty {
-text-align: center;
-padding: 48px 20px;
-color: var(–muted);
-font-size: 14px;
-line-height: 2;
-}
+.stats-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:8px; margin-bottom:12px; }
+.stat-card { background:var(–surface); border-radius:12px; padding:14px; text-align:center; }
+.stat-num { font-family:‘JetBrains Mono’,monospace; font-size:28px; font-weight:700; color:var(–red); line-height:1; }
+.stat-name { font-size:11px; color:var(–muted); margin-top:4px; }
 
 /* Number list panel */
-.numlist-panel {
-background: var(–surface);
-border-radius: var(–radius);
-padding: 16px;
-margin-bottom: 12px;
-}
+.numlist-panel { background:var(–surface); border-radius:var(–radius); padding:16px; margin-bottom:12px; }
+.numlist-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; }
+.numlist-title { font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(–muted); }
+.copy-all-btn { font-size:12px; font-weight:700; padding:6px 14px; border-radius:99px; border:1.5px solid var(–border); background:var(–card); color:var(–muted); cursor:pointer; }
+.numlist-grid { display:flex; flex-wrap:wrap; gap:8px; }
+.numlist-pill { font-family:‘JetBrains Mono’,monospace; font-size:15px; font-weight:700; background:var(–gold-dim); border:1.5px solid rgba(255,204,0,0.3); color:var(–gold); padding:6px 14px; border-radius:99px; }
 
-.numlist-header {
-display: flex;
-align-items: center;
-justify-content: space-between;
-margin-bottom: 12px;
-}
+/* Filter tabs */
+.tabs { display:flex; gap:6px; margin-bottom:12px; overflow-x:auto; padding-bottom:2px; -webkit-overflow-scrolling:touch; }
+.tab { padding:8px 16px; border-radius:99px; font-size:13px; font-weight:700; white-space:nowrap; cursor:pointer; border:1.5px solid var(–border); background:var(–surface); color:var(–muted); flex-shrink:0; transition:all 0.15s; }
+.tab.active { background:var(–red-dim); border-color:var(–red); color:var(–red); }
+.csv-tab { padding:8px 16px; border-radius:99px; font-size:13px; font-weight:700; white-space:nowrap; cursor:pointer; border:1.5px solid var(–border); background:var(–surface); color:var(–muted); flex-shrink:0; margin-left:auto; }
 
-.numlist-title {
-font-size: 11px;
-font-weight: 700;
-letter-spacing: 2px;
-text-transform: uppercase;
-color: var(–muted);
-}
-
-.copy-all-btn {
-font-size: 12px;
-font-weight: 700;
-padding: 6px 14px;
-border-radius: 99px;
-border: 1.5px solid var(–border);
-background: var(–card);
-color: var(–muted);
-cursor: pointer;
-}
-
-.numlist-grid {
-display: flex;
-flex-wrap: wrap;
-gap: 8px;
-}
-
-.numlist-pill {
-font-family: ‘JetBrains Mono’, monospace;
-font-size: 15px;
-font-weight: 700;
-background: var(–gold-dim);
-border: 1.5px solid rgba(255,204,0,0.3);
-color: var(–gold);
-padding: 6px 14px;
-border-radius: 99px;
-}
-
-.results-wrap { display: none; }
-.results-wrap.visible { display: block; }
+/* Result cards */
+.result-card { background:var(–surface); border-radius:var(–radius); padding:14px; margin-bottom:8px; animation:up 0.25s ease both; }
+@keyframes up { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+.card-top { display:flex; align-items:flex-start; gap:8px; margin-bottom:8px; }
+.badge { font-size:10px; font-weight:700; padding:3px 8px; border-radius:6px; white-space:nowrap; flex-shrink:0; }
+.badge-desc { background:rgba(96,165,250,0.15); color:#93c5fd; border:1px solid rgba(96,165,250,0.25); }
+.badge-comment { background:rgba(74,222,128,0.12); color:#86efac; border:1px solid rgba(74,222,128,0.2); }
+.card-video-title { font-size:12px; color:var(–muted); line-height:1.4; }
+.card-video-title a { color:#aaa; text-decoration:none; }
+.card-text { font-size:14px; line-height:1.7; color:#ccc; margin-bottom:10px; word-break:break-all; }
+.hl { font-family:‘JetBrains Mono’,monospace; font-weight:700; font-size:15px; color:var(–gold); background:var(–gold-dim); padding:1px 5px; border-radius:5px; border:1px solid rgba(255,204,0,0.2); }
+.card-nums { display:flex; flex-wrap:wrap; gap:6px; align-items:center; }
+.num-pill { font-family:‘JetBrains Mono’,monospace; font-size:13px; font-weight:700; background:var(–gold-dim); border:1px solid rgba(255,204,0,0.25); color:var(–gold); padding:4px 12px; border-radius:99px; }
+.likes-chip { font-size:12px; color:var(–muted); margin-left:auto; }
+.empty { text-align:center; padding:48px 20px; color:var(–muted); font-size:14px; line-height:2; }
 </style>
 
 </head>
 <body>
 <div class="wrap">
-
-  <!-- Header -->
 
   <div class="header">
     <div class="header-icon">🎯</div>
@@ -445,8 +124,6 @@ border-radius: 99px;
       <div class="header-sub">YouTube概要欄・コメントから数字を収集</div>
     </div>
   </div>
-
-  <!-- API Key -->
 
   <div class="section">
     <div class="section-title">API設定</div>
@@ -458,8 +135,6 @@ border-radius: 99px;
       </div>
     </div>
   </div>
-
-  <!-- Search -->
 
   <div class="section">
     <div class="section-title">検索設定</div>
@@ -488,31 +163,32 @@ border-radius: 99px;
     <button class="run-btn" id="runBtn" onclick="startHunt()">▶ 収集スタート</button>
   </div>
 
-  <!-- Progress -->
-
   <div class="progress-section" id="progressBox">
     <div class="progress-track"><div class="progress-fill" id="progressBar"></div></div>
     <div class="log-box" id="logArea"></div>
   </div>
 
-  <!-- Results -->
-
   <div class="results-wrap" id="resultsWrap">
     <div class="stats-grid" id="statsGrid"></div>
-    <div class="numlist-panel" id="numlistPanel" style="display:none">
-      <div class="numlist-header">
-        <span class="numlist-title">🔢 見つかった数字一覧（重複除去済み）</span>
-        <button class="copy-all-btn" onclick="copyAllNums()">📋 全コピー</button>
-      </div>
-      <div class="numlist-grid" id="numlistGrid"></div>
-    </div>
-    <div class="tabs">
-      <button class="tab active" id="filterAll" onclick="filterResults('all')">すべて</button>
-      <button class="tab" id="filterDesc" onclick="filterResults('desc')">📄 概要欄</button>
-      <button class="tab" id="filterComment" onclick="filterResults('comment')">💬 コメント</button>
-      <button class="csv-tab" onclick="downloadCSV()">⬇ CSV</button>
-    </div>
-    <div id="resultsList"></div>
+
+```
+<div class="numlist-panel" id="numlistPanel" style="display:none">
+  <div class="numlist-header">
+    <span class="numlist-title">🔢 数字一覧（重複除去済み）</span>
+    <button class="copy-all-btn" id="copyBtn" onclick="copyAllNums()">📋 全コピー</button>
+  </div>
+  <div class="numlist-grid" id="numlistGrid"></div>
+</div>
+
+<div class="tabs">
+  <button class="tab active" id="filterAll" onclick="filterResults('all')">すべて</button>
+  <button class="tab" id="filterDesc" onclick="filterResults('desc')">📄 概要欄</button>
+  <button class="tab" id="filterComment" onclick="filterResults('comment')">💬 コメント</button>
+  <button class="csv-tab" onclick="downloadCSV()">⬇ CSV</button>
+</div>
+<div id="resultsList"></div>
+```
+
   </div>
 
 </div>
@@ -526,10 +202,10 @@ const inp = document.getElementById(‘apiKey’);
 inp.type = inp.type === ‘password’ ? ‘text’ : ‘password’;
 }
 
-function log(msg, type = ‘’) {
+function log(msg, cls) {
 const area = document.getElementById(‘logArea’);
 const line = document.createElement(‘div’);
-if (type) line.className = type;
+if (cls) line.className = cls;
 line.textContent = msg;
 area.appendChild(line);
 area.scrollTop = area.scrollHeight;
@@ -540,23 +216,23 @@ document.getElementById(‘progressBar’).style.width = pct + ‘%’;
 }
 
 function extractNumbers(text, digits) {
-const re = new RegExp(`(?<!\\d)\\d{${digits}}(?!\\d)`, ‘g’);
-return […text.matchAll(re)].map(m => m[0]);
+const re = new RegExp(’(?<!\d)\d{’ + digits + ‘}(?!\d)’, ‘g’);
+return […text.matchAll(re)].map(function(m){ return m[0]; });
 }
 
 function highlightNumbers(text, digits) {
 const safe = text.replace(/&/g,’&’).replace(/</g,’<’).replace(/>/g,’>’);
-const re = new RegExp(`(?<!\\d)(\\d{${digits}})(?!\\d)`, ‘g’);
+const re = new RegExp(’(?<!\d)(\d{’ + digits + ‘})(?!\d)’, ‘g’);
 return safe.replace(re, ‘<span class="hl">$1</span>’);
 }
 
 async function apiFetch(endpoint, params) {
 const apiKey = document.getElementById(‘apiKey’).value.trim();
-const qs = new URLSearchParams({ key: apiKey, …params }).toString();
-const res = await fetch(`${BASE}/${endpoint}?${qs}`);
+const qs = new URLSearchParams(Object.assign({ key: apiKey }, params)).toString();
+const res = await fetch(BASE + ‘/’ + endpoint + ‘?’ + qs);
 if (!res.ok) {
 const err = await res.json();
-throw new Error(err.error?.message || res.statusText);
+throw new Error((err.error && err.error.message) || res.statusText);
 }
 return res.json();
 }
@@ -566,12 +242,12 @@ const data = await apiFetch(‘search’, {
 q: query, part: ‘snippet’, type: ‘video’,
 maxResults: Math.min(50, maxVideos), relevanceLanguage: ‘ja’
 });
-return (data.items || []).filter(i => i.id.videoId).slice(0, maxVideos);
+return (data.items || []).filter(function(i){ return i.id.videoId; }).slice(0, maxVideos);
 }
 
 async function getDescription(videoId) {
 const data = await apiFetch(‘videos’, { id: videoId, part: ‘snippet’ });
-return data.items[0]?.snippet?.description || ‘’;
+return (data.items[0] && data.items[0].snippet && data.items[0].snippet.description) || ‘’;
 }
 
 async function getComments(videoId, maxComments) {
@@ -579,7 +255,7 @@ const comments = [];
 let pageToken = null;
 try {
 while (comments.length < maxComments) {
-const params = { videoId, part: ‘snippet’, maxResults: Math.min(100, maxComments - comments.length), order: ‘relevance’ };
+const params = { videoId: videoId, part: ‘snippet’, maxResults: Math.min(100, maxComments - comments.length), order: ‘relevance’ };
 if (pageToken) params.pageToken = pageToken;
 const data = await apiFetch(‘commentThreads’, params);
 for (const item of data.items) {
@@ -595,7 +271,7 @@ return comments;
 
 async function startHunt() {
 const apiKey = document.getElementById(‘apiKey’).value.trim();
-const queries = document.getElementById(‘searchQuery’).value.trim().split(’\n’).map(q => q.trim()).filter(q => q);
+const queries = document.getElementById(‘searchQuery’).value.trim().split(’\n’).map(function(q){ return q.trim(); }).filter(function(q){ return q; });
 const digits = parseInt(document.getElementById(‘digitCount’).value) || 7;
 const maxVideos = parseInt(document.getElementById(‘maxVideos’).value) || 10;
 const maxComments = parseInt(document.getElementById(‘maxComments’).value) || 100;
@@ -614,7 +290,7 @@ try {
 const seenIds = new Set();
 const allVideos = [];
 for (const query of queries) {
-log(`🔍 「${query}」で検索中...`);
+log(‘🔍 「’ + query + ‘」で検索中…’);
 const vids = await searchVideos(query, maxVideos);
 for (const v of vids) {
 if (!seenIds.has(v.id.videoId)) {
@@ -622,24 +298,24 @@ seenIds.add(v.id.videoId);
 allVideos.push(v);
 }
 }
-log(`  → ${vids.length}件発見`, ‘log-ok’);
+log(’  → ’ + vids.length + ‘件発見’, ‘log-ok’);
 }
-log(`✅ 合計 ${allVideos.length}件の動画`, ‘log-ok’);
+log(’✅ 合計 ’ + allVideos.length + ‘件の動画’, ‘log-ok’);
 
 ```
 for (let i = 0; i < allVideos.length; i++) {
   const video = allVideos[i];
   const videoId = video.id.videoId;
   const title = video.snippet.title;
-  const url = `https://www.youtube.com/watch?v=${videoId}`;
+  const url = 'https://www.youtube.com/watch?v=' + videoId;
   setProgress(Math.round((i / allVideos.length) * 100));
-  log(`[${i+1}/${allVideos.length}] ${title.slice(0,35)}...`);
+  log('[' + (i+1) + '/' + allVideos.length + '] ' + title.slice(0,35) + '...');
 
   const desc = await getDescription(videoId);
   const descNums = extractNumbers(desc, digits);
   if (descNums.length > 0) {
-    log(`  📄 概要欄: ${descNums.join(', ')}`, 'log-hit');
-    allResults.push({ source: 'desc', url, title, text: desc.slice(0,300), numbers: descNums, likes: null });
+    log('  📄 概要欄: ' + descNums.join(', '), 'log-hit');
+    allResults.push({ source: 'desc', url: url, title: title, text: desc.slice(0,300), numbers: descNums, likes: null });
   }
 
   const comments = await getComments(videoId, maxComments);
@@ -648,21 +324,21 @@ for (let i = 0; i < allVideos.length; i++) {
     const nums = extractNumbers(c.text, digits);
     if (nums.length > 0) {
       hits++;
-      allResults.push({ source: 'comment', url, title, text: c.text.slice(0,300), numbers: nums, likes: c.likes });
+      allResults.push({ source: 'comment', url: url, title: title, text: c.text.slice(0,300), numbers: nums, likes: c.likes });
     }
   }
-  if (hits > 0) log(`  💬 コメント ${hits}件ヒット`, 'log-hit');
+  if (hits > 0) log('  💬 コメント ' + hits + '件ヒット', 'log-hit');
 
-  await new Promise(r => setTimeout(r, 200));
+  await new Promise(function(r){ setTimeout(r, 200); });
 }
 
 setProgress(100);
-log(`🏆 完了！${allResults.length}件ヒット`, 'log-ok');
+log('🏆 完了！' + allResults.length + '件ヒット', 'log-ok');
 renderResults();
 ```
 
 } catch(e) {
-log(`❌ エラー: ${e.message}`, ‘log-err’);
+log(’❌ エラー: ’ + e.message, ‘log-err’);
 } finally {
 document.getElementById(‘runBtn’).disabled = false;
 }
@@ -674,68 +350,87 @@ const list = document.getElementById(‘resultsList’);
 const digits = parseInt(document.getElementById(‘digitCount’).value) || 7;
 wrap.classList.add(‘visible’);
 
-const filtered = currentFilter === ‘all’ ? allResults : allResults.filter(r => r.source === currentFilter);
-const sorted = […filtered].sort((a,b) => {
+const filtered = currentFilter === ‘all’ ? allResults : allResults.filter(function(r){ return r.source === currentFilter; });
+const sorted = filtered.slice().sort(function(a,b){
 if (a.source === ‘desc’ && b.source !== ‘desc’) return -1;
 if (b.source === ‘desc’ && a.source !== ‘desc’) return 1;
 return (b.likes || 0) - (a.likes || 0);
 });
 
-const totalDesc = allResults.filter(r => r.source === ‘desc’).length;
-const totalComment = allResults.filter(r => r.source === ‘comment’).length;
-// 重複除去：全結果から数字を集めてSetで一意化
-const uniqNums = […new Set(allResults.flatMap(r => r.numbers))].sort();
+const totalDesc = allResults.filter(function(r){ return r.source === ‘desc’; }).length;
+const totalComment = allResults.filter(function(r){ return r.source === ‘comment’; }).length;
+const uniqNums = […new Set(allResults.flatMap(function(r){ return r.numbers; }))].sort();
 
-document.getElementById(‘statsGrid’).innerHTML = `<div class="stat-card"><div class="stat-num">${allResults.length}</div><div class="stat-name">総ヒット</div></div> <div class="stat-card"><div class="stat-num">${uniqNums.length}</div><div class="stat-name">ユニーク数字</div></div> <div class="stat-card"><div class="stat-num">${totalDesc}</div><div class="stat-name">概要欄</div></div> <div class="stat-card"><div class="stat-num">${totalComment}</div><div class="stat-name">コメント</div></div>`;
+document.getElementById(‘statsGrid’).innerHTML =
+‘<div class="stat-card"><div class="stat-num">’ + allResults.length + ‘</div><div class="stat-name">総ヒット</div></div>’ +
+‘<div class="stat-card"><div class="stat-num">’ + uniqNums.length + ‘</div><div class="stat-name">ユニーク数字</div></div>’ +
+‘<div class="stat-card"><div class="stat-num">’ + totalDesc + ‘</div><div class="stat-name">概要欄</div></div>’ +
+‘<div class="stat-card"><div class="stat-num">’ + totalComment + ‘</div><div class="stat-name">コメント</div></div>’;
 
-// 数字一覧パネル
+// 数字一覧（重複除去済み）
 const numPanel = document.getElementById(‘numlistPanel’);
 const numGrid = document.getElementById(‘numlistGrid’);
 if (uniqNums.length > 0) {
 numPanel.style.display = ‘block’;
-numGrid.innerHTML = uniqNums.map(n => `<span class="numlist-pill">${n}</span>`).join(’’);
+numGrid.innerHTML = uniqNums.map(function(n){ return ‘<span class="numlist-pill">’ + n + ‘</span>’; }).join(’’);
 } else {
 numPanel.style.display = ‘none’;
 }
 
 if (sorted.length === 0) {
-list.innerHTML = `<div class="empty">該当する${digits}桁の数字が<br>見つかりませんでした</div>`;
+list.innerHTML = ‘<div class="empty">該当する’ + digits + ‘桁の数字が<br>見つかりませんでした</div>’;
 return;
 }
 
-list.innerHTML = sorted.map((r, i) => `<div class="result-card" style="animation-delay:${i*0.03}s"> <div class="card-top"> <span class="badge ${r.source === 'desc' ? 'badge-desc' : 'badge-comment'}">${r.source === 'desc' ? '概要欄' : 'コメント'}</span> <div class="card-video-title"><a href="${r.url}" target="_blank">${r.title}</a></div> </div> <div class="card-text">${highlightNumbers(r.text, digits)}</div> <div class="card-nums"> ${r.numbers.map(n =>`<span class="num-pill">${n}</span>`).join('')} ${r.likes !== null ? `<span class="likes-chip">👍 ${Number(r.likes).toLocaleString()}</span>`: ''} </div> </div>`).join(’’);
+list.innerHTML = sorted.map(function(r, i){
+return ‘<div class="result-card" style="animation-delay:' + (i*0.03) + 's">’ +
+‘<div class="card-top">’ +
+‘<span class="badge ' + (r.source === 'desc' ? 'badge-desc' : 'badge-comment') + '">’ + (r.source === ‘desc’ ? ‘概要欄’ : ‘コメント’) + ‘</span>’ +
+‘<div class="card-video-title"><a href="' + r.url + '" target="_blank">’ + r.title + ‘</a></div>’ +
+‘</div>’ +
+‘<div class="card-text">’ + highlightNumbers(r.text, digits) + ‘</div>’ +
+‘<div class="card-nums">’ +
+r.numbers.map(function(n){ return ‘<span class="num-pill">’ + n + ‘</span>’; }).join(’’) +
+(r.likes !== null ? ‘<span class="likes-chip">👍 ’ + Number(r.likes).toLocaleString() + ‘</span>’ : ‘’) +
+‘</div>’ +
+‘</div>’;
+}).join(’’);
 }
 
 function filterResults(type) {
 currentFilter = type;
-document.querySelectorAll(’.tab’).forEach(b => b.classList.remove(‘active’));
-document.getElementById(`filter${type.charAt(0).toUpperCase()+type.slice(1)}`).classList.add(‘active’);
+document.querySelectorAll(’.tab’).forEach(function(b){ b.classList.remove(‘active’); });
+document.getElementById(‘filter’ + type.charAt(0).toUpperCase() + type.slice(1)).classList.add(‘active’);
 renderResults();
 }
 
 function copyAllNums() {
-const uniqNums = […new Set(allResults.flatMap(r => r.numbers))].sort();
+const uniqNums = […new Set(allResults.flatMap(function(r){ return r.numbers; }))].sort();
 if (!uniqNums.length) return;
-navigator.clipboard.writeText(uniqNums.join(’\n’)).then(() => {
-const btn = document.querySelector(’.copy-all-btn’);
+navigator.clipboard.writeText(uniqNums.join(’\n’)).then(function(){
+const btn = document.getElementById(‘copyBtn’);
 btn.textContent = ‘✅ コピー済み’;
-setTimeout(() => btn.textContent = ‘📋 全コピー’, 2000);
+setTimeout(function(){ btn.textContent = ‘📋 全コピー’; }, 2000);
 });
 }
 
 function downloadCSV() {
 if (!allResults.length) return;
 const headers = [‘ソース’,‘動画URL’,‘タイトル’,‘テキスト’,‘数字’,‘いいね数’];
-const rows = allResults.map(r => [
+const rows = allResults.map(function(r){
+return [
 r.source === ‘desc’ ? ‘概要欄’ : ‘コメント’,
-r.url, r.title, r.text.replace(/”/g,’””’),
-r.numbers.join(’, ‘), r.likes ?? ‘’
-]);
-const csv = [headers, …rows].map(r => r.map(v => `"${v}"`).join(’,’)).join(’\n’);
+r.url, r.title,
+r.text.replace(/”/g,’””’),
+r.numbers.join(’, ‘),
+r.likes != null ? r.likes : ‘’
+];
+});
+const csv = [headers].concat(rows).map(function(r){ return r.map(function(v){ return ‘”’ + v + ‘”’; }).join(’,’); }).join(’\n’);
 const blob = new Blob([’\uFEFF’+csv], {type:‘text/csv;charset=utf-8’});
 const a = document.createElement(‘a’);
 a.href = URL.createObjectURL(blob);
-a.download = `youtube_hunter_${new Date().toISOString().slice(0,10)}.csv`;
+a.download = ‘youtube_hunter_’ + new Date().toISOString().slice(0,10) + ‘.csv’;
 a.click();
 }
 </script>
